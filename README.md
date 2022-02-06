@@ -16,7 +16,7 @@ Solve sudoku puzzles in C++
     > make all
     ```
 
-3. Edit the `input.txt` file with the `.csv`-formatted sudoku puzzle
+3. Edit the `input/input.csv` file with the `.csv`-formatted sudoku puzzle
 
 4. Run the solver
 
@@ -26,6 +26,6 @@ Solve sudoku puzzles in C++
 
 ---
 
-> *see samples [here](./samples)*
+> *see samples in the [input folder](./samples/)*
 >
 > *with help from [this](https://www.tutorialspoint.com/sudoku-solver-in-cplusplus) tutorialspoint tutorial*
