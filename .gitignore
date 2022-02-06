@@ -1,0 +1,4 @@
+# compiled/binary files
+bin/
+*.o
+*.exe
