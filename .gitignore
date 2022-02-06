@@ -1,7 +1,6 @@
 # compiled/binary files
-bin/
-*.o
-*.exe
+bin/*.o
+# *.exe
 
 
 # dev envs

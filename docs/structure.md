@@ -27,6 +27,8 @@ docs/
 
 ## Class Diagram
 
+![class diagram](../imgs/class_diagram.png)
+
 ```mermaid
     classDiagram
         Sudoku <|-- SudokuReader
