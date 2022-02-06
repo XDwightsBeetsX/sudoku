@@ -1,3 +1,8 @@
+#ifndef SUDOKU_H
+#define SUDOKU_H
+
+#include "SudokuReader.h"
+#include "SudokuWriter.h"
 
 #include <string>
 
@@ -6,6 +11,17 @@
  * Contains methods like solve() and writeSolutionToFile().
  */
 class Sudoku {
+    private:
+        const std::string CM_PREFIX = "[Sukodu] - ";
+
+        std::string InputFilename;
+        std::string OutputFilename;
+
+        SudokuReader* SR;
+        SudokuWriter* SW;
+        std::vector<std::vector<int>> Problem;
+
+        void printSudoku(std::vector<std::vector<int>>);
     public:
         /**
          * @brief Requires an reading inputFilename to create.
@@ -34,3 +50,5 @@ class Sudoku {
          */
         void writeSolutionToFile();
 };
+
+#endif

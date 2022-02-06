@@ -1,7 +1,5 @@
 # compiled/binary files
 bin/*.o
-# *.exe
-
 
 # dev envs
 .vscode

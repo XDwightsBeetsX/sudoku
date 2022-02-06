@@ -19,8 +19,8 @@ int main() {
      * make Sudoku.solve()
      */
 
-    SudokuReader SR = SudokuReader("input/sample.csv");
-    int* sudokuPuzzle = SR.readProblem();
+    Sudoku S = Sudoku("input/sample.csv");
+    S.showProblem();
 
     return 0;
 }
