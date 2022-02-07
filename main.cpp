@@ -14,13 +14,12 @@ using namespace std;
 
 int main() {
     
-    
     Sudoku S = Sudoku("input/sample.csv");
     S.showProblem();
-    S.solve();
-    S.showSolution();
-    S.writeSolutionToFile();
-
+    if (S.solve()) {
+        S.showSolution();
+        S.writeSolutionToFile();
+    }
 
     return 0;
 }

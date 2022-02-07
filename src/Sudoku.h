@@ -29,52 +29,73 @@ class Sudoku {
          * @brief Displays the sudoku board to console.
          */
         void printSudoku(std::vector<std::vector<int>>);
-        
+
         /**
          * @brief Determines if placing value into sudoku at [row, col] is a valid move.
          * 
-         * @param sudoku The sudoku puzzle.
          * @param row The row location to insert value at.
          * @param col The col location to insert value at.
          * @param value The value to insert.
          * @return true Placing value into sudoku at [row,col] is valid.
          * @return false Placing value into sudoku at [row,col] is invalid.
          */
-        bool isValid(std::vector<std::vector<int>> sudoku, int row, int col, int value);
+        bool isValid(int row, int col, int value);
         
+        /**
+         * @brief Determines whether the desired cell is empty.
+         * 
+         * @param row The row location.
+         * @param col The col location.
+         * @return true Sudoku at [row,col] is empty.
+         * @return false Sudoku at [row,col] is occupied.
+         */
+        bool isEmptyCell(int row, int col);
+
         /**
          * @brief Determines if placing value into the sudoku row is a valid move.
          * 
-         * @param sudoku The sudoku puzzle.
          * @param row The row location to insert value at.
          * @param value The value to insert.
          * @return true Placing value into the sudoku row is valid.
          * @return false Placing value into the sudoku row is invalid.
          */
-        bool isValidRow(std::vector<std::vector<int>> sudoku, int row, int value);
+        bool isValidRow(int row, int value);
         
         /**
          * @brief Determines if placing value into the sudoku col is a valid move.
          * 
-         * @param sudoku The sudoku puzzle.
          * @param col The col location to insert value at.
          * @param value The value to insert.
          * @return true Placing value into the sudoku col is valid.
          * @return false Placing value into the sudoku col is invalid.
          */
-        bool isValidCol(std::vector<std::vector<int>> sudoku, int row, int value);
+        bool isValidCol(int row, int value);
         
         /**
          * @brief Determines if placing value into the sudoku square at [row,col] is a valid move.
          * 
-         * @param sudoku The sudoku puzzle.
          * @param row The row location to insert value at.
          * @param col The col location to insert value at.
          * @param value The value to insert.
          * @return true Placing value into the sudoku square at [row,col] is valid.
          * @return false Placing value into the sudoku square at [row,col] is invalid.
          */
-        bool isValidSquare(std::vector<std::vector<int>> sudoku, int row, int col, int value);
+        bool isValidSquare(int row, int col, int value);
+
+        /**
+         * @brief Gets the next available [row, col]
+         * 
+         * @return vector<int> A vector with the next available row and column, respectively.
+         */
+        std::vector<int> getNextRowAndCol();
+
+        /**
+         * @brief A helper method of Sudoku::solve()
+         * 
+         * @return true There exists a solution to the Problem.
+         * @return false There was no solution found to the Problem.
+         */
+        bool recursiveSolve();
     
     public:
         /**
@@ -96,11 +117,6 @@ class Sudoku {
         void showProblem();
 
         /**
-         * @brief Generates a solution to the input sudoku problem.
-         */
-        void solve();
-
-        /**
          * @brief Displays the sudoku problem solution in the console.
          */
         void showSolution();
@@ -109,6 +125,14 @@ class Sudoku {
          * @brief Writes the sudoku problem solution to the output folder with the same filename as the input file.
          */
         void writeSolutionToFile();
+
+        /**
+         * @brief Generates a solution to the input sudoku problem.
+         * 
+         * @return true There is a solution to the Problem (kept in Sudoku->Solution).
+         * @return false There is no solution for this Problem (Sudoku->Solution reset to 0s).
+         */
+        bool solve();
 };
 
 #endif
