@@ -4,7 +4,6 @@
 #include "SudokuReader.h"
 #include "SudokuWriter.h"
 
-#include <string>
 
 /**
  * @brief Main class of the sudoku-solver project.
@@ -83,7 +82,7 @@ class Sudoku {
         bool isValidSquare(int row, int col, int value);
 
         /**
-         * @brief Gets the next available [row, col]
+         * @brief Gets the next available [row, col].
          * 
          * @return vector<int> A vector with the next available row and column, respectively.
          */
@@ -106,7 +105,7 @@ class Sudoku {
         Sudoku(std::string inputFilename);
 
         /**
-         * @brief Destroy the Sudoku object
+         * @brief Destroy the Sudoku object.
          * 
          */
         ~Sudoku();
@@ -117,20 +116,22 @@ class Sudoku {
         void showProblem();
 
         /**
-         * @brief Displays the sudoku problem solution in the console.
+         * @brief Displays the sudoku solution in the console.
+         * NOTE: The Sudoku must be solved with solve() before a solution is found. Otherwise, the initial problem is shown.
          */
         void showSolution();
 
         /**
          * @brief Writes the sudoku problem solution to the output folder with the same filename as the input file.
+         * NOTE: The Sudoku must be solved with solve() before a solution is found. Otherwise, the initial problem will be written.
          */
         void writeSolutionToFile();
 
         /**
          * @brief Generates a solution to the input sudoku problem.
          * 
-         * @return true There is a solution to the Problem (kept in Sudoku->Solution).
-         * @return false There is no solution for this Problem (Sudoku->Solution reset to 0s).
+         * @return true There is a solution to the problem. The Solution data member is updated.
+         * @return false There is no solution for this Problem. The Solution data member is reset to the initial problem.
          */
         bool solve();
 };

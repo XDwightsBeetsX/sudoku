@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+
 /**
  * @brief Contains methods to write a sudoku to file. 
  */

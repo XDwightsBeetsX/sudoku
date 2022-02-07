@@ -20,19 +20,24 @@ SudokuWriter::SudokuWriter(string outputFilename) {
 void SudokuWriter::writeToFile(vector<vector<int>> sudoku) {
     cout << this->CM_PREFIX << "Writing '" << this->OutputFilename << "'..." << endl;
 
+    // write sudoku to an ofstream
     ofstream OutputFile;
-    OutputFile.open(this->OutputFilename, ofstream::out | ofstream::trunc);  // clear old contents
+    OutputFile.open(this->OutputFilename);
 
     for (int row = 0; row < sudoku.size(); row++) {
         for (int col = 0; col < sudoku[0].size(); col++) {
             OutputFile << sudoku[row][col];
+
+            // between all values, add a comma
             if (col < sudoku[0].size()-1)
                 OutputFile << ',';
         }
+
+        // insert a newline after every line
         if (row < sudoku.size()-1)
             OutputFile << endl;
     }
-    OutputFile.close();
     
+    OutputFile.close();
     cout << CM_PREFIX << "Done writing '" << this->OutputFilename<< "'." << endl;
 }

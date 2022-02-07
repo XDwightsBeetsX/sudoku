@@ -1,6 +1,4 @@
-
 #include "Sudoku.h"
-#include "SudokuReader.h"
 #include "utils.h"
 
 #include <iostream>
