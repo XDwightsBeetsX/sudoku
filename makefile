@@ -1,6 +1,9 @@
 # compile all files and make executable bin/sudoku_solver.exe 
-all: reader writer sudoku main
+all: utils reader writer sudoku main
 	g++ bin/*.o -o bin/sudoku_solver.exe
+
+utils:
+	g++ src/utils.cpp -c -o bin/utils.o
 
 reader:
 	g++ src/SudokuReader.cpp -c -o bin/SudokuReader.o

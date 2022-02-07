@@ -20,7 +20,8 @@ SudokuWriter::SudokuWriter(string outputFilename) {
 void SudokuWriter::writeToFile(vector<vector<int>> sudoku) {
     cout << this->CM_PREFIX << "Writing '" << this->OutputFilename << "'..." << endl;
 
-    ofstream OutputFile(this->OutputFilename);
+    ofstream OutputFile;
+    OutputFile.open(this->OutputFilename, ofstream::out | ofstream::trunc);  // clear old contents
 
     for (int row = 0; row < sudoku.size(); row++) {
         for (int col = 0; col < sudoku[0].size(); col++) {
@@ -33,5 +34,5 @@ void SudokuWriter::writeToFile(vector<vector<int>> sudoku) {
     }
     OutputFile.close();
     
-    cout << CM_PREFIX << "Done writing '" << this->OutputFilename<< "'" << endl;
+    cout << CM_PREFIX << "Done writing '" << this->OutputFilename<< "'." << endl;
 }

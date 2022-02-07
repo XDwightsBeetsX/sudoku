@@ -3,6 +3,8 @@
  * run `make all` followed by `make run` to solve the puzzle
  */
 
+#include "src/utils.h"
+
 #include "src/Sudoku.h"
 #include "src/SudokuReader.h"
 
@@ -11,16 +13,14 @@
 using namespace std;
 
 int main() {
-    /** TODO:
-     * start w reader
-     * make Sudoku so that it has its own reader and writer
-     * make writer
-     * just write through a problem to file
-     * make Sudoku.solve()
-     */
-
+    
+    
     Sudoku S = Sudoku("input/sample.csv");
     S.showProblem();
+    S.solve();
+    S.showSolution();
+    S.writeSolutionToFile();
+
 
     return 0;
 }
