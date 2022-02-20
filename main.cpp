@@ -5,21 +5,26 @@
  * 3. Run `make all` followed by `make run` to solve the puzzle.
  */
 
-#include "src/Sudoku.h"
+#include "src/SudokuSolver.h"
+#include "src/SudokuGenerator.h"
 
 using namespace std;
 
 int main() {
-    // ============== FILENAME ===============
-    string inputFilename = "input/sample.csv";
-    // =======================================
+    // // ============== FILENAME ===============
+    // string inputFilename = "input/sample.csv";
+    // // =======================================
 
-    Sudoku S = Sudoku(inputFilename);
-    S.showProblem();
-    if (S.solve()) {
-        S.showSolution();
-        S.writeSolutionToFile();
-    }
+    // SudokuSolver SS = SudokuSolver(inputFilename);
+    // SS.showProblem();
+    // if (SS.solve()) {
+    //     SS.showSolution();
+    //     SS.writeSolutionToFile();
+    // }
+
+    SudokuGenerator SG = SudokuGenerator();
+    SG.generatePuzzles(10);
+
 
     return 0;
 }
