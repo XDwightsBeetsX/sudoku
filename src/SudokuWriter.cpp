@@ -16,8 +16,8 @@ void SudokuWriter::writeToFile(vector<vector<int>> &sudoku, string &outputFilena
     cout << SudokuWriter::CM_PREFIX << "Writing '" << outputFilename << "'..." << endl;
 
     // write sudoku to an ofstream
+    ofstream OutputFile;
     try {
-        ofstream OutputFile;
         OutputFile.open(outputFilename);
 
         for (int row = 0; row < sudoku.size(); row++) {
@@ -39,6 +39,7 @@ void SudokuWriter::writeToFile(vector<vector<int>> &sudoku, string &outputFilena
     }
     // issues writing to file such as invalid filename
     catch(const std::exception& e) {
+        OutputFile.close();  // make sure the file got closed
         cout << SudokuWriter::CM_PREFIX << "There was an error writing '" << outputFilename << "'." << endl;
         cout << SudokuWriter::CM_PREFIX << "Error Message:" << endl << e.what();
     }

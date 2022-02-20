@@ -36,4 +36,6 @@ void SudokuGenerator::generatePuzzles(int count) {
         string outputFilename = SudokuGenerator::F_GEN_PREFIX + to_string(pn) + ".csv";
         SudokuWriter::writeToFile(puzzle, outputFilename);
     }
+
+    cout << SudokuGenerator::CM_PREFIX << "Successfully generated and write " << count << " puzzles." << endl;
 }

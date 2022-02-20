@@ -8,23 +8,21 @@
 #include "src/SudokuSolver.h"
 #include "src/SudokuGenerator.h"
 
-using namespace std;
 
 int main() {
-    // // ============== FILENAME ===============
-    // string inputFilename = "input/sample.csv";
-    // // =======================================
-
-    // SudokuSolver SS = SudokuSolver(inputFilename);
-    // SS.showProblem();
-    // if (SS.solve()) {
-    //     SS.showSolution();
-    //     SS.writeSolutionToFile();
-    // }
-
+    // generate puzzles
     SudokuGenerator SG = SudokuGenerator();
     SG.generatePuzzles(10);
+    
+    // solve puzzle
+    std::string inputFilename = "input/sample.csv";
 
+    SudokuSolver SS = SudokuSolver(inputFilename);
+    SS.showProblem();
+    if (SS.solve()) {
+        SS.showSolution();
+        SS.writeSolutionToFile();
+    }
 
     return 0;
 }
