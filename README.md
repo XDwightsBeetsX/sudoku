@@ -1,44 +1,56 @@
 # sudoku
 
-Solve sudoku puzzles in C++
+Solve sudoku puzzles w/ C++ !
 
-## Usage
+| Input | Output |
+| :-: | :-: |
+| ![puzzle](imgs/sudoku_puzzle.png) | ![puzzle](imgs/sudoku_solution.png) |
 
-1. **Download** the repo
+## Install
+
+- **Download** the repo or the `.zip` directory from the [github repo](https://github.com/XDwightsBeetsX/sudoku)
 
     ```shell
     > git clone https://github.com/XDwightsBeetsX/sudoku
     ```
 
-2. **Edit/Create the `input/input.csv` file** with the `.csv`-formatted sudoku puzzle
+## Usage
+
+1. **Edit/Create the `input/input.csv` file** with the `.csv`-formatted 9x9 sudoku puzzle.
+   
+   Make sure you **update the `main.cpp`** if necessary.
 
     ```c++
-    #include "src/Sudoku.h"
+    #include "src/SudokuSolver.h"
+    #include "src/SudokuGenerator.h"
 
     using namespace std;
 
     int main() {
-        // ============== FILENAME ===============
-        string inputFilename = "input/sample.csv";
-        // =======================================
+        // generate puzzles
+        SudokuGenerator SG = SudokuGenerator();
+        SG.generatePuzzles(10);
 
-        Sudoku S = Sudoku(inputFilename);
-        S.showProblem();
-        if (S.solve()) {
-            S.showSolution();
-            S.writeSolutionToFile();
+        // solve a puzzle
+        std::string inputFilename = "input/sample.csv";
+
+        SudokuSolver SS = SudokuSolver(inputFilename);
+        SS.showProblem();
+        if (SS.solve()) {
+            SS.showSolution();
+            SS.writeSolutionToFile();
         }
         return 0;
     }
     ```
 
-3. **Make** the executable
+2. **Compile** the executable with *Make*, `g++`, or similar. I like using [*MinGW's compilers*](https://www.mingw-w64.org/downloads/)...
 
     ```shell
     > make all
     ```
 
-4. **Run** the solver
+3. **Run** the solver
 
     ```shell
     > make run

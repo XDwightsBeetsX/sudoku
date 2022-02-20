@@ -6,38 +6,41 @@
 
 using namespace std;
 
-SudokuWriter::SudokuWriter() {
-    cout << this->CM_PREFIX << "Empty SudokuWriter constructed." << endl;
-    cout << this->CM_PREFIX << "Using default outputFilename: " << this->DefaultOutputFilename << endl;
-    this->OutputFilename = this->DefaultOutputFilename;
-}
 
-SudokuWriter::SudokuWriter(string outputFilename) {
-    cout << this->CM_PREFIX << "SudokuWriter constructed with output filename: '" << outputFilename << "'" << endl;
-    this->OutputFilename = outputFilename;
-}
+// set static data members for reference
+string SudokuWriter::CM_PREFIX = "[SudokuWriter] - ";
+string SudokuWriter::DefaultOutputFilename = "output/output.csv";
 
-void SudokuWriter::writeToFile(vector<vector<int>> sudoku) {
-    cout << this->CM_PREFIX << "Writing '" << this->OutputFilename << "'..." << endl;
+
+void SudokuWriter::writeToFile(vector<vector<int>> &sudoku, string &outputFilename) {
+    cout << SudokuWriter::CM_PREFIX << "Writing '" << outputFilename << "'..." << endl;
 
     // write sudoku to an ofstream
     ofstream OutputFile;
-    OutputFile.open(this->OutputFilename);
+    try {
+        OutputFile.open(outputFilename);
 
-    for (int row = 0; row < sudoku.size(); row++) {
-        for (int col = 0; col < sudoku[0].size(); col++) {
-            OutputFile << sudoku[row][col];
+        for (int row = 0; row < sudoku.size(); row++) {
+            for (int col = 0; col < sudoku[0].size(); col++) {
+                OutputFile << sudoku[row][col];
 
-            // between all values, add a comma
-            if (col < sudoku[0].size()-1)
-                OutputFile << ',';
+                // between all values, add a comma
+                if (col < sudoku[0].size()-1)
+                    OutputFile << ',';
+            }
+
+            // insert a newline after every line
+            if (row < sudoku.size()-1)
+                OutputFile << endl;
         }
-
-        // insert a newline after every line
-        if (row < sudoku.size()-1)
-            OutputFile << endl;
+        
+        OutputFile.close();
+        cout << SudokuWriter::CM_PREFIX << "Done writing '" << outputFilename << "'." << endl;
     }
-    
-    OutputFile.close();
-    cout << CM_PREFIX << "Done writing '" << this->OutputFilename<< "'." << endl;
+    // issues writing to file such as invalid filename
+    catch(const std::exception& e) {
+        OutputFile.close();  // make sure the file got closed
+        cout << SudokuWriter::CM_PREFIX << "There was an error writing '" << outputFilename << "'." << endl;
+        cout << SudokuWriter::CM_PREFIX << "Error Message:" << endl << e.what();
+    }
 }

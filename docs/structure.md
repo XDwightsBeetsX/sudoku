@@ -4,7 +4,6 @@
 
 ```shell
 sudoku
-│
 │   .gitignore
 │   LICENSE
 │   main.cpp
@@ -12,20 +11,43 @@ sudoku
 │   README.md
 │
 ├───bin
-│       sudoku_solver.exe
+│       sudoku.exe
 │       *.o
 │
+├───docs
+│       sample_format.md
+│       structure.md
+│
+├───imgs
+│       class_diagram.png
+│
 ├───input
-│       sample.csv
+│   │   sample.csv
+│   │
+│   └───generated
+│           gen_puzzle_1.csv
+│           gen_puzzle_10.csv
+│           gen_puzzle_2.csv
+│           gen_puzzle_3.csv
+│           gen_puzzle_4.csv
+│           gen_puzzle_5.csv
+│           gen_puzzle_6.csv
+│           gen_puzzle_7.csv
+│           gen_puzzle_8.csv
+│           gen_puzzle_9.csv
 │
 ├───output
 │       sample-out.csv
 │
 └───src
-        Sudoku.cpp
-        Sudoku.h
+        SudokuGenerator.cpp
+        SudokuGenerator.h
         SudokuReader.cpp
         SudokuReader.h
+        SudokuRules.cpp
+        SudokuRules.h
+        SudokuSolver.cpp
+        SudokuSolver.h
         SudokuWriter.cpp
         SudokuWriter.h
         utils.cpp
@@ -43,11 +65,14 @@ sudoku
 ```mermaid
     classDiagram
         direction LR
-        Sudoku <|-- SudokuReader
-        Sudoku <|-- SudokuWriter
-        Sudoku <|-- utils
+        SudokuSolver <|-- SudokuReader
+        SudokuSolver <|-- SudokuWriter
+        SudokuSolver <|-- utils
+        SudokuSolver <|-- SudokuRules
+        SudokuGenerator <|-- SudokuRules
+        
 
-        class Sudoku {
+        class SudokuSolver {
             -string InputFilename
             -string OutputFilename
             -SudokuReader
@@ -55,22 +80,17 @@ sudoku
             -vector<vector<int>> Problem
             -vector<vector<int>> Solution
             -bool recursiveSolve()
-            -void printSudoku()
-            -bool isEmptyCell()
-            -bool isValid()
-            -bool isValidRow()
-            -bool isValidCol()
-            -bool isValidSquare()
+            -void printSudoku(vector<vector<int>> &sudoku)
             -vector<int> getNextRowAndCol()
             
-            +Sudoku(string inputFilename)
-            ~Sudoku()
+            +SudokuSolver(string inputFilename)
+            ~SudokuSolver()
             +void showProblem()
             +void showSolution()
-            +void writeSolutionToFile()
+            +void writeSolutionToFile(string outputFilename)
             +bool solve()
         }
-
+        
         class SudokuReader {
             -string InputFilename
             +SudokuReader()
@@ -79,16 +99,28 @@ sudoku
         }
 
         class SudokuWriter {
-            -string OutputFilename
-            +SudokuWriter()
-            +void writeToFile(vector<vector<int>> sudoku)
+            +static void writeToFile(vector<vector<int>> &sudoku, string &outputFilename)
+        }
+
+        class SudokuRules {
+            +static bool isValid(vector<vector<int>> &sudoku, int &row, int &col, int &value)
+            +static bool isEmptyCell(vector<vector<int>> &sudoku, int &row, int &col)
+            +static bool isValidRow(vector<vector<int>> &sudoku, int &row, int &value)
+            +static bool isValidCol(vector<vector<int>> &sudoku, int &row, int &value)
+            +static bool isValidSquare(vector<vector<int>> &sudoku, int &row, int &col, int &value)
+        }
+
+        class SudokuGenerator {
+            +void generatePuzzles(int count)
         }
 
         class utils {
-            +vector<string> split(string ipnutString, string delimiter)
+            +vector<string> split(string inputString, string delimiter)
         }
 ```
 
 > *Arrows point towards the highest level class*
 >
 > *[Documentation](../docs/) is subject to change and may nto be up-to-date*
+>
+> *Last updated 2/20/2022*

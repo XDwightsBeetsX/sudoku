@@ -1,9 +1,12 @@
-# compile all files and make executable bin/sudoku_solver.exe 
-all: utils reader writer sudoku main
-	g++ bin/*.o -o bin/sudoku_solver.exe
+# compile all files and make executable bin/sudoku_solver.exe
+all: utils rules reader writer generator sudoku main
+	g++ bin/*.o -o bin/sudoku.exe
 
 utils:
 	g++ src/utils.cpp -c -o bin/utils.o
+
+rules:
+	g++ src/SudokuRules.cpp -c -o bin/SudokuRules.o
 
 reader:
 	g++ src/SudokuReader.cpp -c -o bin/SudokuReader.o
@@ -11,8 +14,11 @@ reader:
 writer:
 	g++ src/SudokuWriter.cpp -c -o bin/SudokuWriter.o
 
+generator:
+	g++ src/SudokuGenerator.cpp -c -o bin/SudokuGenerator.o
+
 sudoku:
-	g++ src/Sudoku.cpp -c -o bin/Sudoku.o
+	g++ src/SudokuSolver.cpp -c -o bin/SudokuSolver.o
 
 main:
 	g++ main.cpp -c -o bin/main.o
@@ -20,7 +26,7 @@ main:
 
 # quickly run the program
 run:
-	./bin/sudoku_solver.exe
+	./bin/sudoku.exe
 
 
 # remove all compiled object files

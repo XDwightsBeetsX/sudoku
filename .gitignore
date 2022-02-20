@@ -1,5 +1,8 @@
 # compiled/binary files
-bin/*.o
+bin/*
+
+# generated puzzles
+input/generated/*
 
 # dev envs
 .vscode

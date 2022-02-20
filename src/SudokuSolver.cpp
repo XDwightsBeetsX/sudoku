@@ -1,31 +1,33 @@
-#include "Sudoku.h"
+#include "SudokuSolver.h"
 #include "utils.h"
 
 #include <iostream>
 
 using namespace std;
 
-Sudoku::Sudoku(string inputFilename) {
+SudokuSolver::SudokuSolver(string inputFilename) {
     this->InputFilename = inputFilename;
 
-    this->SR = new SudokuReader(inputFilename);
-    vector<vector<int>> input = this->SR->readProblem();
+    // use a SudokuReader to read in a puzzle to Problem and Solution
+    this->SReader = new SudokuReader(inputFilename);
+    vector<vector<int>> input = this->SReader->readProblem();
     this->Problem = input;
     this->Solution = input;
+    delete this->SReader;                   // ok to delete this guy after using him to read input
     
     vector<string> folderSplit = split(inputFilename, "/");
     string outputFilename = "output/" + split(folderSplit[folderSplit.size()-1], ".")[0] + "-out.csv";
     this->OutputFilename = outputFilename;
-    this->SW = new SudokuWriter(outputFilename);
+    this->SWriter = new SudokuWriter();     // need to keep around for writeSolutionToFile()
 }
 
-Sudoku::~Sudoku() {
+SudokuSolver::~SudokuSolver() {
     // delete dynamically allocated memory
-    delete this->SR;
-    delete this->SW;
+    delete this->SWriter;
+    delete this;
 }
 
-void Sudoku::printSudoku(vector<vector<int>> sudoku) {
+void SudokuSolver::printSudoku(vector<vector<int>> &sudoku) {
     for (int row = 0; row < sudoku.size(); row++) {
         // print the row separators
         if (row == 3 || row == 6)
@@ -44,67 +46,31 @@ void Sudoku::printSudoku(vector<vector<int>> sudoku) {
     }
 }
 
-void Sudoku::showProblem() {
+void SudokuSolver::showProblem() {
     cout << this->CM_PREFIX << "Sudoku Problem:" << endl;
     this->printSudoku(this->Problem);
 }
 
-void Sudoku::showSolution() {
+void SudokuSolver::showSolution() {
     cout << this->CM_PREFIX << "Sudoku Solution:" << endl;
     this->printSudoku(this->Solution);
 }
 
-void Sudoku::writeSolutionToFile() {
-    this->SW->writeToFile(this->Solution);
-}
-
-bool Sudoku::isValid(int row, int col, int value) {
-    return this->isValidRow(row, value) && this->isValidCol(col, value) && this->isValidSquare(row, col, value);
-}
-
-bool Sudoku::isEmptyCell(int row, int col) {
-    return this->Solution[row][col] == 0;
-}
-
-bool Sudoku::isValidRow(int row, int value) {
-    for (int col = 0; col < this->Solution[0].size(); col++) {
-        if (this->Solution[row][col] == value)
-            return false;
+void SudokuSolver::writeSolutionToFile(string outputFilename) {
+    // can specify a custom filename, or use the determined this->OutputFilename
+    if (outputFilename == "") {
+        this->SWriter->writeToFile(this->Solution, this->OutputFilename);
     }
-
-    return true;
-}
-
-bool Sudoku::isValidCol(int col, int value) {
-    for (int row = 0; row < this->Solution.size(); row++) {
-        if (this->Solution[row][col] == value)
-            return false;
+    else {
+        this->SWriter->writeToFile(this->Solution, outputFilename);
     }
-
-    return true;
 }
 
-bool Sudoku::isValidSquare(int row, int col, int value) {
-    // perform integer division to get the square
-    // then, multiply by 3 to get the row index
-    int squareRowI = (row / 3) * 3;
-    int squareColI = (col / 3) * 3;
-
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            if (this->Solution[squareRowI + i][squareColI + j] == value)
-                return false;
-        }
-    }
-
-    return true;
-}
-
-vector<int> Sudoku::getNextRowAndCol() {
+vector<int> SudokuSolver::getNextRowAndCol() {
     vector<int> nextRowAndCol = {-1, -1};
     for (int row = 0; row < 9; row++) {
         for (int col = 0; col < 9; col++) {
-            if (this->isEmptyCell(row, col)) {
+            if (SudokuRules::isEmptyCell(this->Solution, row, col)) {
                 nextRowAndCol[0] = row;
                 nextRowAndCol[1] = col;
             }
@@ -114,7 +80,7 @@ vector<int> Sudoku::getNextRowAndCol() {
     return nextRowAndCol;
 }
 
-bool Sudoku::recursiveSolve() {
+bool SudokuSolver::recursiveSolve() {
     vector<int> rowAndCol = this->getNextRowAndCol();
 
     // see if this is the last empty cell
@@ -126,7 +92,7 @@ bool Sudoku::recursiveSolve() {
     
     // plug in all values into all empty cells recursively
     for (int val = 1; val <= 9; val++) {
-        if (this->isValid(row, col, val)) {
+        if (SudokuRules::isValid(this->Solution, row, col, val)) {
             // if the move is valid, place val in [row][col]
             this->Solution[row][col] = val;
 
@@ -143,7 +109,7 @@ bool Sudoku::recursiveSolve() {
     return false;
 }
 
-bool Sudoku::solve() {
+bool SudokuSolver::solve() {
     cout << this->CM_PREFIX << "Solving..." << endl;
 
     // call the recursive helper
